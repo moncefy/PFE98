@@ -85,7 +85,7 @@
     </style>
 
 </head>
-<body class="bg-white">
+<body class="bg-white/20">
     <!-- Navigation Bar -->
     <nav class="fixed top-0 left-0 right-0 bg-transparent backdrop-blur-md z-50 px-6 md:px-12 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -155,70 +155,71 @@
     </section>
     
     <!-- Featured Destinations -->
-    <section class="py-16 px-6 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12 text-brand-dark">Popular Destinations</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Destination Card 1 -->
-            <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-gray-200">
-                <div class="h-64 bg-gray-300"></div> <!-- Placeholder for destination image -->
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-xl font-semibold text-brand-dark">Paris, France</h3>
-                        <span class="text-gold font-bold">$699</span>
-                    </div>
-                    <p class="text-gray-600 mb-4">Experience the romance and beauty of the City of Light.</p>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <i class="fas fa-star text-gold"></i>
-                            <span class="ml-1">4.8 (243 reviews)</span>
-                        </div>
-                        <span class="text-gray-500">7 days</span>
-                    </div>
+<section class="py-16 px-6 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-12 text-brand-dark">Popular Destinations</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Destination Card 1 -->
+        <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-gray-200">
+            <div class="h-64 bg-cover bg-center" style="background-image: url('images/card1.jpg');"></div>
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xl font-semibold text-brand-dark">Paris, France</h3>
+                    <span class="text-gold font-bold">13,000,0 DZD</span>
                 </div>
-            </div>
-            
-            <!-- Destination Card 2 -->
-            <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-gray-200">
-                <div class="h-64 bg-gray-300"></div> <!-- Placeholder for destination image -->
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-xl font-semibold text-brand-dark">Bali, Indonesia</h3>
-                        <span class="text-gold font-bold">$899</span>
+                <p class="text-gray-600 mb-4">Experience the romance and beauty of the City of Light.</p>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-star text-gold"></i>
+                        <span class="ml-1">4.8 (243 reviews)</span>
                     </div>
-                    <p class="text-gray-600 mb-4">Tropical paradise with stunning beaches and vibrant culture.</p>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <i class="fas fa-star text-gold"></i>
-                            <span class="ml-1">4.9 (517 reviews)</span>
-                        </div>
-                        <span class="text-gray-500">10 days</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Destination Card 3 -->
-            <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-gray-200">
-                <div class="h-64 bg-gray-300"></div> <!-- Placeholder for destination image -->
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-xl font-semibold text-brand-dark">Santorini, Greece</h3>
-                        <span class="text-gold font-bold">$799</span>
-                    </div>
-                    <p class="text-gray-600 mb-4">Breathtaking views and iconic white and blue architecture.</p>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <i class="fas fa-star text-gold"></i>
-                            <span class="ml-1">4.7 (326 reviews)</span>
-                        </div>
-                        <span class="text-gray-500">8 days</span>
-                    </div>
+                    <span class="text-gray-500">7 days</span>
                 </div>
             </div>
         </div>
-        <div class="text-center mt-10">
-            <a href="#" class="inline-block border-2 border-gold text-gold px-6 py-3 rounded-full font-semibold hover:bg-gold hover:text-white transition-colors">View All Destinations</a>
+
+        <!-- Destination Card 2 -->
+        <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-gray-200">
+            <div class="h-64 bg-cover bg-center" style="background-image: url('images/card2.jpg');"></div>
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xl font-semibold text-brand-dark">Bali, Indonesia</h3>
+                    <span class="text-gold font-bold">12,500,0 DZD</span>
+                </div>
+                <p class="text-gray-600 mb-4">Tropical paradise with stunning beaches and vibrant culture.</p>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-star text-gold"></i>
+                        <span class="ml-1">4.9 (517 reviews)</span>
+                    </div>
+                    <span class="text-gray-500">10 days</span>
+                </div>
+            </div>
         </div>
-    </section>
+
+        <!-- Destination Card 3 -->
+        <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-gray-200">
+            <div class="h-64 bg-cover bg-center" style="background-image: url('images/card3.jpg');"></div>
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xl font-semibold text-brand-dark">Santorini, Greece</h3>
+                    <span class="text-gold font-bold">15,000,0 DZD</span>
+                </div>
+                <p class="text-gray-600 mb-4">Breathtaking views and iconic white and blue architecture.</p>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-star text-gold"></i>
+                        <span class="ml-1">4.7 (326 reviews)</span>
+                    </div>
+                    <span class="text-gray-500">8 days</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-10">
+        <a href="#" class="inline-block border-2 border-gold text-gold px-6 py-3 rounded-full font-semibold hover:bg-gold hover:text-white transition-colors">View All Destinations</a>
+    </div>
+</section>
+
     
     <!-- Why Choose Us -->
     <section class="py-16 bg-gray-50">
@@ -250,65 +251,71 @@
         </div>
     </section>
     
-    <!-- Reviews -->
-    <section class="py-16 px-6">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 text-brand-dark">What Our Travelers Say</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                    <div class="flex items-center space-x-1 mb-4 text-gold">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 italic mb-4">"The trip to Morocco was absolutely incredible. Everything was perfectly organized, from the accommodations to the guided tours. We'll definitely book with PFE for our next adventure!"</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
-                        <div>
-                            <h4 class="font-semibold text-brand-dark">Moncef Kameli</h4>
-                            <p class="text-sm text-gray-500">Traveled to Morocco</p>
-                        </div>
+<!-- Reviews -->
+<section class="py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-12 text-brand-dark">What Our Travelers Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Review 1 -->
+<div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+    <div class="flex items-center space-x-1 mb-4 text-gold">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+    </div>
+    <p class="text-gray-600 italic mb-4">"The trip to Morocco was absolutely incredible. Everything was perfectly organized, from the accommodations to the guided tours. We'll definitely book with PFE for our next adventure!"</p>
+    <div class="flex items-center">
+        <div class="w-12 h-12 rounded-full bg-cover bg-center mr-4" style="background-image: url('images/face.png');"></div>
+        <div>
+            <h4 class="font-semibold text-brand-dark">Moncef Kameli</h4>
+            <p class="text-sm text-gray-500">Traveled to Morocco</p>
+        </div>
+    </div>
+</div>
+
+            <!-- Review 2 -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <div class="flex items-center space-x-1 mb-4 text-gold">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="text-gray-600 italic mb-4">"Our family trip to Thailand exceeded all expectations. The guides were knowledgeable, friendly, and made sure we experienced the authentic culture. The children still talk about it!"</p>
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-cover bg-center mr-4" style="background-image: url('images/face.png');"></div>
+                    <div>
+                        <h4 class="font-semibold text-brand-dark">Adel Chibah</h4>
+                        <p class="text-sm text-gray-500">Traveled to Thailand</p>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                    <div class="flex items-center space-x-1 mb-4 text-gold">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 italic mb-4">"Our family trip to Thailand exceeded all expectations. The guides were knowledgeable, friendly, and made sure we experienced the authentic culture. The children still talk about it!"</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
-                        <div>
-                            <h4 class="font-semibold text-brand-dark">Adel Chibah</h4>
-                            <p class="text-sm text-gray-500">Traveled to Thailand</p>
-                        </div>
-                    </div>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <div class="flex items-center space-x-1 mb-4 text-gold">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                    <div class="flex items-center space-x-1 mb-4 text-gold">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 italic mb-4">"I was nervous about solo travel, but the team at PFE made it so easy and comfortable. I felt safe and supported throughout my entire journey in Japan. Already planning my next trip!"</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
-                        <div>
-                            <h4 class="font-semibold text-brand-dark">Khaled Ferhaoui</h4>
-                            <p class="text-sm text-gray-500">Traveled to Japan</p>
-                        </div>
+                <p class="text-gray-600 italic mb-4">"I was nervous about solo travel, but the team at PFE made it so easy and comfortable. I felt safe and supported throughout my entire journey in Japan. Already planning my next trip!"</p>
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-cover bg-center mr-4" style="background-image: url('images/face.png');"></div>
+                    <div>
+                        <h4 class="font-semibold text-brand-dark">Khaled Ferhaoui</h4>
+                        <p class="text-sm text-gray-500">Traveled to Japan</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
     
     <!-- Newsletter -->
     <section class="py-16 px-6 bg-brand-dark text-white">
@@ -330,7 +337,11 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <img src="images/LOGO.png" alt="PFE Logo" class="h-12 mb-4">
+<<<<<<< HEAD
                     <p class="text-gray-300">Your trusted travel partner since 2010. We make your dream vacations come true.</p>
+=======
+                    <p class="text-gray-300">Your trusted travel partner since 2025. We make your dream vacations come true.</p>
+>>>>>>> 020e64f (second commit)
                     <div class="flex space-x-4 mt-4">
                         <a href="#" class="text-gray-300 hover:text-gold transition-colors"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="text-gray-300 hover:text-gold transition-colors"><i class="fab fa-twitter"></i></a>
@@ -352,11 +363,11 @@
                     <ul class="space-y-2 text-gray-300">
                         <li class="flex items-start">
                             <i class="fas fa-map-marker-alt mt-1 mr-2"></i>
-                            <span>123 Travel Street, City, Country</span>
+                            <span>Bloc 5, Faculté des Sciences, Boumerdes/span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-phone-alt mr-2"></i>
-                            <span>+1 234 567 890</span>
+                            <span>+213 541 493 604</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-envelope mr-2"></i>

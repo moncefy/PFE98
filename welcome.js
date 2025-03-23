@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Resume automatic slide changes
             slideInterval = setInterval(changeSlide, 5000);
+
+            
         });
     });
 });
