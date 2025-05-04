@@ -7,6 +7,24 @@
     <script src="welcome.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <?php
+// Assuming you're connected to the database
+require_once '../class/Database.php'; // Include your Database connection file
+
+// Connect to the database
+$db = new Database('localhost', 'root', '', 'pfe'); // Modify the connection params as needed
+$conn = $db->getConnection();
+
+// Query to get distinct continents
+$sql = "SELECT DISTINCT continent FROM pays";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$continents = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+// Close the statement
+$stmt->close();
+?>
     <script>
         tailwind.config = {
             theme: {
@@ -207,45 +225,120 @@
         <div class="absolute inset-0 flex flex-col items-center justify-center text-center z-10">
             <h1 class="text-4xl md:text-5xl font-bold text-white px-4">Explore the world with a smile</h1>
             <p class="text-white mt-4 w-4/5 md:w-1/2 px-4">Discover new destinations, create unforgettable memories, and travel with confidence.</p>
-            
-            <!-- Search Section -->
-            <div class="w-full max-w-4xl mx-auto px-4 mt-8">
-                <div class="search-container p-4 flex flex-col md:flex-row items-center gap-4">
-                    <div class="flex-1 flex items-center gap-2">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" 
-                               id="search" 
-                               name="search" 
-                               class="search-input" 
-                               placeholder="Où voulez-vous aller?"
-                               autocomplete="off">
-                        <div id="searchResults" class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg hidden"></div>
-                    </div>
-                    <div class="search-divider hidden md:block"></div>
-                    <div class="flex-1 flex items-center gap-2">
-                        <i class="fas fa-globe search-icon"></i>
-                        <select name="continent" class="search-input">
-                            <option value="">Tous les continents</option>
-                            <?php foreach ($continents as $cont): ?>
-                                <option value="<?php echo htmlspecialchars($cont); ?>">
-                                    <?php echo htmlspecialchars($cont); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="search-divider hidden md:block"></div>
-                    <div class="flex-1 flex items-center gap-2">
-                        <i class="fas fa-euro-sign search-icon"></i>
-                        <input type="number" 
-                               name="min_price" 
-                               class="search-input" 
-                               placeholder="Prix minimum">
-                    </div>
-                    <button type="submit" class="search-button">
-                        Rechercher
-                    </button>
-                </div>
+
+<!-- Search Section -->
+<div class="w-full max-w-4xl mx-auto px-4 mt-8">
+    <div class="search-container p-4 flex flex-wrap items-center gap-4">
+        <form action="destinations.php" method="GET" class="w-full flex flex-wrap gap-4 items-center" onsubmit="return validateForm()">
+            <div class="flex-1 flex items-center gap-2 relative">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" 
+                       id="search" 
+                       name="search" 
+                       class="search-input"
+                       placeholder="Où voulez-vous aller?"
+                       autocomplete="off"
+                       oninput="fetchSuggestions(this.value)">
+                
+                <!-- Suggestions box -->
+                <div id="suggestions" class="absolute z-10 w-full top-full mt-2 bg-white rounded-lg shadow-lg hidden max-h-60 overflow-y-auto"></div>
             </div>
+
+            <div class="flex-1 flex items-center gap-2">
+                <i class="fas fa-globe search-icon"></i>
+                <select name="continent" class="search-input">
+                    <option value="">Tous les continents</option>
+                    <?php foreach ($continents as $cont): ?>
+                        <option value="<?php echo htmlspecialchars($cont['continent']); ?>">
+                            <?php echo htmlspecialchars($cont['continent']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="flex-1 flex items-center gap-2">
+                <i class="fas fa-euro-sign search-icon"></i>
+                <input type="number" 
+                       name="max_price" 
+                       class="search-input" 
+                       placeholder="Prix maximum">
+            </div>
+
+            <button type="submit" class="search-button">
+                Rechercher
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+// Static list of countries in French
+const countriesInFrench = [
+    "Afghanistan", "Afrique du Sud", "Albanie", "Algérie", "Allemagne", "Andorre", "Angola", "Antigua-et-Barbuda", 
+    "Arabie Saoudite", "Argentine", "Arménie", "Australie", "Autriche", "Azerbaïdjan", "Bahamas", "Bahreïn", 
+    "Bangladesh", "Barbade", "Belgique", "Belize", "Bénin", "Bhoutan", "Bolivie", "Bosnie-Herzégovine", 
+    "Botswana", "Brésil", "Brunei", "Bulgarie", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodge", "Cameroun", 
+    "Canada", "Chili", "Chine", "Chypre", "Colombie", "Comores", "Congo", "Congo (République Démocratique du Congo)", 
+    "Costa Rica", "Croatie", "Cuba", "Danemark", "Djibouti", "Dominique", "Égypte", "El Salvador", "Équateur", 
+    "Érythrée", "Espagne", "Estonie", "Eswatini", "États-Unis", "Éthiopie", "Fidji", "Finlande", "France", 
+    "Gabon", "Gambie", "Géorgie", "Ghana", "Grèce", "Grenade", "Guatemala", "Guinée", "Guinée-Bissau", "Guyana", 
+    "Haïti", "Honduras", "Hongrie", "Îles Marshall", "Inde", "Indonésie", "Irak", "Iran", "Irlande", "Islande", 
+    "Israël", "Italie", "Jamaïque", "Japon", "Jordanie", "Kazakhstan", "Kenya", "Kirghizistan", "Kiribati", 
+    "Koweït", "Laos", "Lesotho", "Lettonie", "Liban", "Liberia", "Libye", "Liechtenstein", "Lituanie", "Luxembourg", 
+    "Madagascar", "Malaisie", "Malawi", "Maldives", "Mali", "Malte", "Maroc", "Maurice", "Mauritanie", "Mexique", 
+    "Micronésie", "Moldavie", "Monaco", "Mongolie", "Mozambique", "Namibie", "Nauru", "Népal", "Nicaragua", "Niger", 
+    "Nigeria", "Niue", "Norvège", "Nouvelle-Zélande", "Oman", "Ouganda", "Pakistan", "Palaos", "Panama", "Papouasie-Nouvelle-Guinée", 
+    "Paraguay", "Pays-Bas", "Pérou", "Philippines", "Pologne", "Portugal", "Qatar", "République Démocratique du Congo", 
+    "République Dominicaine", "Roumanie", "Royaume-Uni", "Russie", "Rwanda", "Saint-Kitts-et-Nevis", "Saint-Marin", 
+    "Saint-Vincent-et-les-Grenadines", "Salvador", "Samoa", "Sao Tomé-et-Principe", "Sénégal", "Serbie", "Seychelles", 
+    "Sierra Leone", "Singapour", "Slovaquie", "Slovénie", "Solomon", "Somalie", "Soudan", "Soudan du Sud", "Sri Lanka", 
+    "Suède", "Suisse", "Syrie", "Tadjikistan", "Tanzanie", "Tchad", "Thaïlande", "Togo", "Trinité-et-Tobago", "Tunisie", 
+    "Turkménistan", "Turquie", "Tuvalu", "Ukraine", "Uruguay", "Vanuatu", "Vatican", "Venezuela", "Vietnam", "Yémen", 
+    "Zambie", "Zimbabwe"
+];
+
+// Function to fetch suggestions from the static list
+function fetchSuggestions(query) {
+    if (!query) {
+        document.getElementById('suggestions').classList.add('hidden');
+        return;
+    }
+
+    const filteredCountries = countriesInFrench.filter(country => 
+        country.toLowerCase().includes(query.toLowerCase())
+    );
+
+    const suggestionsDiv = document.getElementById('suggestions');
+    if (filteredCountries.length > 0) {
+        suggestionsDiv.classList.remove('hidden');
+        suggestionsDiv.innerHTML = filteredCountries.map(country => 
+            `<div class="p-2 cursor-pointer" onclick="selectSuggestion('${country}')">${country}</div>`
+        ).join('');
+    } else {
+        suggestionsDiv.classList.add('hidden');
+    }
+}
+
+// Function to handle suggestion selection
+function selectSuggestion(suggestion) {
+    document.getElementById('search').value = suggestion;
+    document.getElementById('suggestions').classList.add('hidden');
+}
+
+// Validate that at least one field is filled
+function validateForm() {
+    const searchField = document.getElementById('search').value;
+    const continentField = document.querySelector('select[name="continent"]').value;
+    const maxPriceField = document.querySelector('input[name="max_price"]').value;
+
+    if (!searchField && !continentField && !maxPriceField) {
+        alert('Veuillez remplir au moins un champ pour effectuer la recherche.');
+        return false;
+    }
+    return true;
+}
+</script>
+
         </div>
     </section>
     
@@ -542,6 +635,20 @@
                     </form>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
             
             <div class="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
                 <p>&copy; 2025 PFE Travels. All rights reserved.</p>
