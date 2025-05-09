@@ -75,3 +75,8 @@
 <p class="text-slate-light">Light Slate Text</p>
 <p class="text-slate-dark">Dark Slate Text</p>
 ```
+<!--wsh dert   -->
+regisiter g3
+zedt join us
+rbt bin login ou register
+khls 3yit

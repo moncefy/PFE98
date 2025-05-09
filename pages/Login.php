@@ -59,6 +59,7 @@
             </form>
             <div class="mt-4 text-center">
                 <a href="forgotPassword.php" class="text-indigo-600 hover:underline text-sm">Mot de passe oublié ?</a>
+                <a href="register.php" class="text-indigo-600 hover:underline"> register</a>
             </div>
         </div>
     </div>

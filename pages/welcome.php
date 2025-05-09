@@ -191,6 +191,7 @@ $stmt->close();
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Services</a>
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">News</a>
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Contact</a>
+                <a href="Login.php" class="text-slate font-semibold hover:text-teal transition-colors">Join us</a>   <!--mdf add Join us -->
             </div>
         </div>
     </nav>
