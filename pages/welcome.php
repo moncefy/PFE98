@@ -187,7 +187,7 @@ $stmt->close();
             <!-- Desktop Navigation -->
             <div class="hidden md:flex space-x-6">
                 <a href="#" class="text-teal font-semibold hover:text-teal-dark transition-colors">Home</a>
-                <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Discover</a>
+                <a href="Discover.php" class="text-slate font-semibold hover:text-teal transition-colors">Discover</a>
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Services</a>
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">News</a>
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Contact</a>
