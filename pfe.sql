@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 19, 2025 at 06:57 PM
+-- Generation Time: May 20, 2025 at 03:03 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pfe`
+-- Database: `pfe` 
 --
 
 DELIMITER $$
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `avis` (
   PRIMARY KEY (`id`),
   KEY `client_id` (`client_id`),
   KEY `reservation_id` (`reservation_id`)
-) ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -315,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `hotel` (
   `etoiles` tinyint DEFAULT NULL,
   `chambres_disponible` int NOT NULL,
   `prix_par_nuit` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_nom_hotel` (`nom`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -325,31 +325,31 @@ CREATE TABLE IF NOT EXISTS `hotel` (
 --
 
 INSERT INTO `hotel` (`id`, `nom`, `adress`, `ville`, `pays`, `etoiles`, `chambres_disponible`, `prix_par_nuit`, `image`) VALUES
-(26, 'El Aurassi', 'Rue Hassiba Ben Bouali, Hydra', 'Alger', 'Algérie', 5, 15, 24300.00, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Hotel-El-Aurassi.jpg'),
-(27, 'Sofitel Algiers Hamma Garden', 'Les Jardins de l’Hamma', 'Alger', 'Algérie', 5, 25, 29700.00, 'https://www.sofitel-algiers.com/wp-content/uploads/2016/09/sofitel-algiers-hotel-garden.jpg'),
-(28, 'Sheraton Club des Pins Resort', 'BP 12, Club des Pins', 'Alger', 'Algérie', 5, 20, 27000.00, 'https://upload.wikimedia.org/wikipedia/commons/6/64/Sheraton_Club_Des_Pins_Resort.jpg'),
-(29, 'Royal Hotel Oran', 'Avenue de l’ALN', 'Oran', 'Algérie', 4, 10, 14800.00, 'https://upload.wikimedia.org/wikipedia/commons/f/fd/Royal_Hotel_Oran.jpg'),
-(30, 'Novotel Constantine', 'Parc des Rocades, El Khroub', 'Constantine', 'Algérie', 4, 8, 12800.00, 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Novotel_Constantine.jpg'),
-(31, 'The Residence Tunis', 'Corniche', 'Tunis', 'Tunisie', 5, 30, 27000.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1a/cf/50/62/the-residence-tunis.jpg'),
-(32, 'Hotel Carlton', 'Avenue Mohamed V', 'Tunis', 'Tunisie', 4, 12, 16200.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0e/c1/90/ed/carlton-hotel-tunis.jpg'),
-(33, 'La Mamounia', 'Avenue Bab Jdid', 'Marrakech', 'Maroc', 5, 25, 40500.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0e/5d/d6/7e/royal-mansour-marrakech.jpg'),
-(34, 'Royal Mansour Marrakech', 'Rue Abou Abbas El Sebti', 'Marrakech', 'Maroc', 5, 15, 60750.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1b/75/82/68/four-seasons-resort-marrakech.jpg'),
-(35, 'Four Seasons Resort Marrakech', 'Km 5, Route de l’Oukaïmeden', 'Marrakech', 'Maroc', 5, 12, 47250.00, 'https://upload.wikimedia.org/wikipedia/commons/0/02/Hyatt_Regency_Casablanca.jpg'),
-(36, 'Hyatt Regency Casablanca', 'Place des Nations Unies', 'Casablanca', 'Maroc', 5, 30, 24300.00, 'https://upload.wikimedia.org/wikipedia/commons/0/02/Hyatt_Regency_Casablanca.jpg'),
-(37, 'Ritz Paris', '15 Place Vendôme', 'Paris', 'France', 5, 20, 74300.00, 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Ritz_Paris.jpg'),
-(38, 'Hôtel Plaza Athénée', '25 Avenue Montaigne', 'Paris', 'France', 5, 10, 70200.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0f/c1/94/1e/plaza-athenee.jpg'),
-(39, 'The Savoy', 'Strand', 'Londres', 'Royaume-Uni', 5, 15, 64800.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1b/c9/77/16/the-savoy.jpg'),
-(40, 'The Ritz London', '150 Piccadilly', 'Londres', 'Royaume-Uni', 5, 8, 81000.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1b/8e/90/21/the-ritz-london.jpg'),
-(41, 'The Plaza', '768 5th Ave', 'New York', 'États-Unis', 5, 30, 87750.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0e/ed/7f/3f/the-plaza.jpg'),
-(42, 'Four Seasons Hotel New York', '57 E 57th St', 'New York', 'États-Unis', 5, 20, 94500.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1b/25/0b/07/four-seasons-hotel-new-york.jpg'),
-(43, 'Burj Al Arab', 'Jumeirah St', 'Dubai', 'Émirats Arabes Unis', 5, 10, 135000.00, 'https://upload.wikimedia.org/wikipedia/commons/6/63/Burj_Al_Arab_from_ground.jpg'),
-(44, 'Atlantis The Palm', 'Crescent Rd, The Palm Jumeirah', 'Dubai', 'Émirats Arabes Unis', 5, 20, 60750.00, 'https://upload.wikimedia.org/wikipedia/commons/e/e2/Atlantis_the_palm.jpg'),
-(45, 'Steigenberger Airport Hotel', 'Unterschweinstiege 16', 'Francfort', 'Allemagne', 4, 50, 21600.00, 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Steigenberger_Airport_Hotel_Frankfurt.jpg'),
-(46, 'Villa Kennedy, a Rocco Forte Hotel', 'Kennedyallee 70', 'Francfort', 'Allemagne', 5, 10, 36450.00, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Villa_Kennedy_Frankfurt.jpg'),
-(47, 'Çırağan Palace Kempinski', 'Çırağan Caddesi', 'Istanbul', 'Turquie', 5, 5, 45900.00, 'https://upload.wikimedia.org/wikipedia/commons/a/a4/%C3%87%C4%B1ra%C4%9Fan_Palace_Kempinski_2019.jpg'),
-(48, 'Four Seasons Hotel Istanbul at Sultanahmet', 'Tevkifhane Sokak No.1', 'Istanbul', 'Turquie', 5, 12, 43200.00, 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Four_Seasons_Istanbul_Sultanahmet_Exterior_2013.jpg'),
-(49, 'Park Hyatt Tokyo', '3-7-1-2 Nishi Shinjuku', 'Tokyo', 'Japon', 5, 8, 81000.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1a/66/19/7f/park-hyatt-tokyo.jpg'),
-(50, 'Mandarin Oriental, Tokyo', '2-1-1 Nihonbashi Muromachi', 'Tokyo', 'Japon', 5, 10, 74250.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0e/62/ff/d5/mandarin-oriental-tokyo.jpg');
+(26, 'El Aurassi', 'Rue Hassiba Ben Bouali, Hydra', 'Alger', 'Algérie', 5, 15, 12150.00, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Hotel-El-Aurassi.jpg'),
+(27, 'Sofitel Algiers Hamma Garden', 'Les Jardins de l’Hamma', 'Alger', 'Algérie', 5, 25, 14850.00, 'https://www.sofitel-algiers.com/wp-content/uploads/2016/09/sofitel-algiers-hotel-garden.jpg'),
+(28, 'Sheraton Club des Pins Resort', 'BP 12, Club des Pins', 'Alger', 'Algérie', 5, 20, 13500.00, 'https://upload.wikimedia.org/wikipedia/commons/6/64/Sheraton_Club_Des_Pins_Resort.jpg'),
+(29, 'Royal Hotel Oran', 'Avenue de l’ALN', 'Oran', 'Algérie', 4, 10, 7400.00, 'https://upload.wikimedia.org/wikipedia/commons/f/fd/Royal_Hotel_Oran.jpg'),
+(30, 'Novotel Constantine', 'Parc des Rocades, El Khroub', 'Constantine', 'Algérie', 4, 8, 6400.00, 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Novotel_Constantine.jpg'),
+(31, 'The Residence Tunis', 'Corniche', 'Tunis', 'Tunisie', 5, 30, 13500.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1a/cf/50/62/the-residence-tunis.jpg'),
+(32, 'Hotel Carlton', 'Avenue Mohamed V', 'Tunis', 'Tunisie', 4, 12, 8100.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0e/c1/90/ed/carlton-hotel-tunis.jpg'),
+(33, 'La Mamounia', 'Avenue Bab Jdid', 'Marrakech', 'Maroc', 5, 25, 20250.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0e/5d/d6/7e/royal-mansour-marrakech.jpg'),
+(34, 'Royal Mansour Marrakech', 'Rue Abou Abbas El Sebti', 'Marrakech', 'Maroc', 5, 15, 30375.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1b/75/82/68/four-seasons-resort-marrakech.jpg'),
+(35, 'Four Seasons Resort Marrakech', 'Km 5, Route de l’Oukaïmeden', 'Marrakech', 'Maroc', 5, 12, 23625.00, 'https://upload.wikimedia.org/wikipedia/commons/0/02/Hyatt_Regency_Casablanca.jpg'),
+(36, 'Hyatt Regency Casablanca', 'Place des Nations Unies', 'Casablanca', 'Maroc', 5, 30, 12150.00, 'https://upload.wikimedia.org/wikipedia/commons/0/02/Hyatt_Regency_Casablanca.jpg'),
+(37, 'Ritz Paris', '15 Place Vendôme', 'Paris', 'France', 5, 20, 37150.00, 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Ritz_Paris.jpg'),
+(38, 'Hôtel Plaza Athénée', '25 Avenue Montaigne', 'Paris', 'France', 5, 10, 35100.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0f/c1/94/1e/plaza-athenee.jpg'),
+(39, 'The Savoy', 'Strand', 'Londres', 'Royaume-Uni', 5, 15, 32400.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1b/c9/77/16/the-savoy.jpg'),
+(40, 'The Ritz London', '150 Piccadilly', 'Londres', 'Royaume-Uni', 5, 8, 40500.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1b/8e/90/21/the-ritz-london.jpg'),
+(41, 'The Plaza', '768 5th Ave', 'New York', 'États-Unis', 5, 30, 17500.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0e/ed/7f/3f/the-plaza.jpg'),
+(42, 'Four Seasons Hotel New York', '57 E 57th St', 'New York', 'États-Unis', 5, 20, 14500.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1b/25/0b/07/four-seasons-hotel-new-york.jpg'),
+(43, 'Burj Al Arab', 'Jumeirah St', 'Dubai', 'Émirats Arabes Unis', 5, 10, 17500.00, 'https://upload.wikimedia.org/wikipedia/commons/6/63/Burj_Al_Arab_from_ground.jpg'),
+(44, 'Atlantis The Palm', 'Crescent Rd, The Palm Jumeirah', 'Dubai', 'Émirats Arabes Unis', 5, 20, 30375.00, 'https://upload.wikimedia.org/wikipedia/commons/e/e2/Atlantis_the_palm.jpg'),
+(45, 'Steigenberger Airport Hotel', 'Unterschweinstiege 16', 'Francfort', 'Allemagne', 4, 50, 10800.00, 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Steigenberger_Airport_Hotel_Frankfurt.jpg'),
+(46, 'Villa Kennedy, a Rocco Forte Hotel', 'Kennedyallee 70', 'Francfort', 'Allemagne', 5, 10, 18225.00, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Villa_Kennedy_Frankfurt.jpg'),
+(47, 'Çırağan Palace Kempinski', 'Çırağan Caddesi', 'Istanbul', 'Turquie', 5, 5, 22950.00, 'https://upload.wikimedia.org/wikipedia/commons/a/a4/%C3%87%C4%B1ra%C4%9Fan_Palace_Kempinski_2019.jpg'),
+(48, 'Four Seasons Hotel Istanbul at Sultanahmet', 'Tevkifhane Sokak No.1', 'Istanbul', 'Turquie', 5, 12, 21600.00, 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Four_Seasons_Istanbul_Sultanahmet_Exterior_2013.jpg'),
+(49, 'Park Hyatt Tokyo', '3-7-1-2 Nishi Shinjuku', 'Tokyo', 'Japon', 5, 8, 40500.00, 'https://media-cdn.tripadvisor.com/media/photo-s/1a/66/19/7f/park-hyatt-tokyo.jpg'),
+(50, 'Mandarin Oriental, Tokyo', '2-1-1 Nihonbashi Muromachi', 'Tokyo', 'Japon', 5, 10, 37125.00, 'https://media-cdn.tripadvisor.com/media/photo-s/0e/62/ff/d5/mandarin-oriental-tokyo.jpg');
 
 -- --------------------------------------------------------
 
@@ -375,14 +375,11 @@ DROP TABLE IF EXISTS `notification`;
 CREATE TABLE IF NOT EXISTS `notification` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `utilisateur_id` int UNSIGNED NOT NULL,
-  `gestionnaire_id` int UNSIGNED DEFAULT NULL,
   `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_envoi` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `est_lue` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `fk_notif_user` (`utilisateur_id`),
-  KEY `fk_notif_gest` (`gestionnaire_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `fk_notif_user` (`utilisateur_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -514,28 +511,24 @@ INSERT INTO `pays` (`id`, `nom`, `continent`, `code`, `created_at`, `updated_at`
 DROP TABLE IF EXISTS `reservation`;
 CREATE TABLE IF NOT EXISTS `reservation` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `numero_vol` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nom_hotel` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `numero_vol` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nom_hotel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `nombre_chambres` int NOT NULL DEFAULT '1',
-  `type_chambre` enum('simple','double','suite','familiale') COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `type_chambre` enum('simple','double','suite','familiale') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `client_id` int UNSIGNED NOT NULL,
   `date_reservation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `statut` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `montant_total` decimal(12,2) NOT NULL DEFAULT '0.00',
   `est_paye` tinyint(1) NOT NULL DEFAULT '0',
+  `date_debut_hotel` date DEFAULT NULL,
+  `date_fin_hotel` date DEFAULT NULL,
+  `nombre_billets` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_res_client` (`client_id`),
   KEY `fk_res_statut` (`statut`),
   KEY `fk_reservation_vol` (`numero_vol`),
   KEY `fk_reservation_nom_hotel` (`nom_hotel`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `reservation`
---
-
-INSERT INTO `reservation` (`id`, `numero_vol`, `nom_hotel`, `nombre_chambres`, `type_chambre`, `client_id`, `date_reservation`, `statut`, `montant_total`, `est_paye`) VALUES
-(5, 'DZ6301', 'Ritz Paris', 1, '', 1, '2025-05-19 19:44:52', '0', 166055.00, 0);
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -627,7 +620,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `telephone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `date_creation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `role_id` int UNSIGNED NOT NULL,
-  `role_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `role_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_email` (`email`),
   KEY `fk_utilisateur_role` (`role_id`)
@@ -673,7 +666,7 @@ CREATE TABLE IF NOT EXISTS `vol` (
   `aeroport_depart` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `aeroport_arrivee` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `destination` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `continent` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `continent` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `date_depart` datetime NOT NULL,
   `date_arrivee` datetime NOT NULL,
   `type_vol` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -821,7 +814,7 @@ INSERT INTO `vol` (`id`, `numero_vol`, `compagnie_aerienne`, `aeroport_depart`, 
 (287, 'DZ5528', 'Etihad Airways', 'Aéroport d’Oran - Ahmed Ben Bella', 'Londres LHR (R.-U.)', 'R.-U.', 'Europe', '2025-07-16 03:12:00', '2025-08-03 11:27:00', 'Aller simple', 69501.00, 200),
 (288, 'DZ6876', 'American Airlines', 'Aéroport de Tamanrasset - Aguenar', 'Brussels BRU (Belgique)', 'Belgique', 'Europe', '2025-08-25 17:52:00', '2025-06-20 04:27:00', 'Aller simple', 61823.00, 203),
 (289, 'DZ9964', 'EgyptAir', 'Aéroport d’Alger - Houari Boumediene', 'Prague PRG (République tchèque)', 'République tchèque', 'Europe', '2025-07-02 04:57:00', '2025-06-25 04:13:00', 'Aller simple', 62169.00, 119),
-(290, 'DZ1789', 'Turkish Airlines', 'Aéroport de Tamanrasset - Aguenar', 'São Paulo GRU (Brésil)', 'Brésil', 'Amérique du Sud', '2025-08-04 10:06:00', '2025-06-28 19:26:00', 'Aller simple', 26787.00, 80),
+(290, 'DZ1789', 'Turkish Airlines', 'Aérroport de Tamanrasset - Aguenar', 'São Paulo GRU (Brésil)', 'Brésil', 'Amérique du Sud', '2025-08-04 10:06:00', '2025-06-28 19:26:00', 'Aller simple', 26787.00, 80),
 (291, 'DZ5680', 'American Airlines', 'Aéroport de Béjaïa - Soummam', 'Tokyo NRT (Japon)', 'Japon', 'Asie', '2025-06-21 13:09:00', '2025-06-14 22:31:00', 'Aller simple', 44296.00, 196),
 (292, 'DZ5525', 'Turkish Airlines', 'Aéroport de Tamanrasset - Aguenar', 'Brussels BRU (Belgique)', 'Belgique', 'Europe', '2025-06-22 01:32:00', '2025-07-27 04:14:00', 'Aller-retour', 38830.00, 195),
 (293, 'DZ7041', 'Tassili Airlines', 'Aéroport d’Annaba - Rabah Bitat', 'Shanghai PVG (Chine)', 'Chine', 'Asie', '2025-07-31 06:18:00', '2025-08-15 00:40:00', 'Aller-retour', 51659.00, 132),

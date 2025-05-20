@@ -24,6 +24,12 @@ $continents = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 // Close the statement
 $stmt->close();
+
+// Images fictives par destination
+$imageMap = [
+    'France' => 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Paris_Night.jpg',
+    'États-Unis' => 'https://images.unsplash.com/photo-1598344689264-30ed6f21055c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+];
 ?>
     <script>
         tailwind.config = {
@@ -191,6 +197,7 @@ $stmt->close();
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Services</a>
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">News</a>
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Contact</a>
+                <a href="Login.php" class="text-slate font-semibold hover:text-teal transition-colors">Join us</a>
             </div>
         </div>
     </nav>

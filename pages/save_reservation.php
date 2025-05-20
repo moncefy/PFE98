@@ -52,19 +52,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Prepare SQL INSERT statement
     $sql = "INSERT INTO reservation (numero_vol, nom_hotel, nombre_chambres, type_chambre, client_id, date_debut_hotel, date_fin_hotel, date_reservation, statut, montant_total, est_paye) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
 
-    $statut = 'En Cours'; // As requested
+    $statut = 'En Attente'; // As requested
     $est_paye = 0; // As requested (Non payé), using 0 for tinyint(1)
 
     $stmt = $conn->prepare($sql);
 
     // Bind parameters
     // s: string, i: integer, d: double/float
-    // Ensure correct order and types: numero_vol(s), nom_hotel(s), nombre_chambres(i), type_chambre(s), client_id(i), date_debut_hotel(s), date_fin_hotel(s), statut(s), montant_total(d), est_paye(i)
-    error_log("Binding params: numero_vol=".$numero_vol.", nom_hotel=".$nom_hotel.", nombre_chambres=".$nombre_chambres.", type_chambre=".$type_chambre.", client_id=".$client_id.", date_debut_hotel=".$date_debut_hotel.", date_fin_hotel=".$date_fin_hotel.", statut=".$statut.", montant_total=".$montant_total.", est_paye=".$est_paye);
-    // Corrected bind parameters to include date_debut_hotel and date_fin_hotel
-    // s: numero_vol, s: nom_hotel, i: nombre_chambres, s: type_chambre, i: client_id, s: date_debut_hotel, s: date_fin_hotel, s: statut, d: montant_total, i: est_paye
-    error_log("Final Binding params: numero_vol=".$numero_vol.", nom_hotel=".$nom_hotel.", nombre_chambres=".$nombre_chambres.", type_chambre=".$type_chambre.", client_id=".$client_id.", date_debut_hotel=".$date_debut_hotel.", date_fin_hotel=".$date_fin_hotel.", statut=".$statut.", montant_total=".$montant_total.", est_paye=".$est_paye);
-    $stmt->bind_param('ssiissdsi', $numero_vol, $nom_hotel, $nombre_chambres, $type_chambre, $client_id, $date_debut_hotel, $date_fin_hotel, $statut, $montant_total, $est_paye);
+    $types = [
+        's', // numero_vol
+        's', // nom_hotel
+        'i', // nombre_chambres
+        's', // type_chambre
+        'i', // client_id
+        's', // date_debut_hotel
+        's', // date_fin_hotel
+        's', // statut
+        'd', // montant_total
+        'i'  // est_paye
+    ];
+    $stmt->bind_param(implode('', $types), $numero_vol, $nom_hotel, $nombre_chambres, $type_chambre, $client_id, $date_debut_hotel, $date_fin_hotel, $statut, $montant_total, $est_paye);
 
     // Execute the statement
     if ($stmt->execute()) {
