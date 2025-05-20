@@ -96,12 +96,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
             // Insertion dans la table client
-            $stmt2 = $conn->prepare("INSERT INTO client (id, adress, pays, num_passeport, date_naissance) VALUES (?, ?, ?, ?, ?)");
-            $stmt2->bind_param('issss', $user_id, $adresse, $pays, $num_passeport, $date_naissance);
-            if ($stmt2->execute()) {
-                $success = true;
-            } else {
-                $errors[] = "Erreur lors de l'insertion dans la table client.";
+            $stmt2 = $conn->prepare("UPDATE client SET adress = ?, pays = ?, num_passeport = ?, date_naissance = ? WHERE id = ?");
+            
+            // Log values being prepared for client insertion
+            error_log("Preparing client UPDATE with user_id: " . $user_id);
+            error_log("  adresse: " . $adresse);
+            error_log("  pays: " . $pays);
+            error_log("  num_passeport: " . $num_passeport);
+            error_log("  date_naissance: " . $date_naissance);
+
+            $stmt2->bind_param('ssssi', $adresse, $pays, $num_passeport, $date_naissance, $user_id);
+            try {
+                if ($stmt2->execute()) {
+                    $success = true;
+                } else {
+                    // Log the specific MySQL error if possible, but avoid showing sensitive details
+                    error_log("MySQL execute error during client UPDATE for user_id " . $user_id . ": " . $stmt2->error);
+                    // If client UPDATE fails, attempt to delete the user from utilisateur table
+                    $deleteStmt = $conn->prepare("DELETE FROM utilisateur WHERE id = ?");
+                    $deleteStmt->bind_param('i', $user_id);
+                    if ($deleteStmt->execute()) {
+                        error_log("Successfully deleted user with ID " . $user_id . " due to client UPDATE failure.");
+                    } else {
+                        error_log("Failed to delete user with ID " . $user_id . " after client UPDATE failure: " . $deleteStmt->error);
+                    }
+                    $deleteStmt->close();
+                    $errors[] = "Erreur lors de l'enregistrement des informations client. Veuillez réessayer.";
+                }
+            } catch (mysqli_sql_exception $e) {
+                // Catch specific SQL exceptions, like duplicate entry on primary key
+                if ($e->getCode() == 1062) { // 1062 is the error code for duplicate entry
+                     error_log("Duplicate entry error during client UPDATE for user_id " . $user_id . ": " . $e->getMessage());
+                     error_log("  Attempted adresse: " . $adresse);
+                     error_log("  Attempted pays: " . $pays);
+                     error_log("  Attempted num_passeport: " . $num_passeport);
+                     error_log("  Attempted date_naissance: " . $date_naissance);
+                    // This might happen if the auto-increment ID in 'utilisateur' is already used in 'client'
+                    $errors[] = "Une erreur système est survenue (ID client déjà utilisé). Veuillez contacter l'administrateur.";
+                } else {
+                    // Handle other SQL exceptions
+                    error_log("Unexpected MySQL error during client UPDATE for user_id " . $user_id . ": " . $e->getMessage());
+                    // Attempt to delete the user from utilisateur table for other SQL errors
+                    $deleteStmt = $conn->prepare("DELETE FROM utilisateur WHERE id = ?");
+                    $deleteStmt->bind_param('i', $user_id);
+                    if ($deleteStmt->execute()) {
+                        error_log("Successfully deleted user with ID " . $user_id . " due to unexpected client UPDATE error.");
+                    } else {
+                        error_log("Failed to delete user with ID " . $user_id . " after unexpected client UPDATE error: " . $deleteStmt->error);
+                    }
+                    $deleteStmt->close();
+                    $errors[] = "Une erreur de base de données est survenue. Veuillez réessayer.";
+                }
             }
             $stmt2->close();
         } else {

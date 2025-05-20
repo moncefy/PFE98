@@ -37,15 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Admin fallback
-    $adminId = Admin::loginA($conn, $email, $password);
-    if ($adminId) {
-        $_SESSION['admin_id'] = $adminId;
-        $_SESSION['role_id']  = 3;
-        header('Location: ../pages/admin.php');
-        exit;
-    }
-
     // Invalid
     $_SESSION['login_error'] = 'Invalid credentials.';
     header('Location: ../pages/login.php');

@@ -1,4 +1,5 @@
 <?php
+session_start(); // Start the session
 require_once '../class/Database.php';
 
 header('Content-Type: application/json');
@@ -34,9 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // TODO: Implement actual client_id retrieval based on user session
-    // For now, using a placeholder. Replace with actual logic.
-    $client_id = 1; // Placeholder: Replace with actual authenticated user ID
+    // Get client_id from session, default to 1 if not set (e.g., for guests)
+    $client_id = $_SESSION['user_id'] ?? 1;
 
     // Connect to the database
     $db = new Database('localhost', 'root', '', 'pfe');
@@ -77,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->execute()) {
         $response['success'] = true;
         $response['message'] = 'Reservation saved successfully.';
+        $response['reservation_id'] = $conn->insert_id; // Get the ID of the newly inserted reservation
     } else {
         error_log("Database error: " . $stmt->error);
         $response['message'] = 'Error saving reservation: ' . $stmt->error;

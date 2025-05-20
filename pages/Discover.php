@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: Login.php');
+    exit();
+}
+
 // Discover.php
 require_once '../class/Database.php';
 

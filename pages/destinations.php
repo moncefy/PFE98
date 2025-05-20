@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: Login.php');
+    exit();
+}
+
 // destinations.php
 require_once '../class/Database.php';
 
@@ -278,6 +285,9 @@ $imageMap = [
         <h3 id="confirmationTitle" class="text-lg font-medium text-gray-900 text-center mb-2"></h3>
         <p id="confirmationMessage" class="text-sm text-gray-500 text-center"></p>
         <div class="mt-6 flex justify-center">
+          <button id="generateInvoiceBtn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mr-2">
+            Generer Facture
+          </button>
           <button id="confirmationClose" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
             Fermer
           </button>
@@ -580,7 +590,8 @@ $imageMap = [
           }
 
           showNotification('success', 'Réservation confirmée', 'Votre réservation a été enregistrée avec succès !');
-          showConfirmationModal('success', 'Réservation confirmée', 'Votre réservation a été enregistrée avec succès !');
+          // Pass the reservation_id to the confirmation modal
+          showConfirmationModal('success', 'Réservation confirmée', 'Votre réservation a été enregistrée avec succès !', result.reservation_id);
       closeModal();
         } else {
           showNotification('error', 'Erreur', result.message || 'Une erreur est survenue lors de la réservation.');
@@ -650,7 +661,7 @@ $imageMap = [
       }, 5000);
     }
 
-    function showConfirmationModal(type, title, message) {
+    function showConfirmationModal(type, title, message, reservation_id) {
       const modal = document.getElementById('confirmationModal');
       const icon = document.getElementById('confirmationIcon');
       const titleEl = document.getElementById('confirmationTitle');
@@ -677,10 +688,35 @@ $imageMap = [
       // Show modal
       modal.classList.remove('hidden');
 
-      // Add click handler to close button
-      document.getElementById('confirmationClose').onclick = () => {
-        modal.classList.add('hidden');
-      };
+      // Update modal footer with both buttons
+      const modalFooter = modal.querySelector('.mt-6.flex.justify-center');
+      if (modalFooter) {
+          modalFooter.innerHTML = `
+              <button id=\"generateInvoiceBtn\" class=\"px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mr-2\" data-reservation-id=\"${reservation_id}\">
+                  Generer Facture
+              </button>
+              <button id=\"confirmationClose\" class=\"px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors\">
+                  Fermer
+              </button>
+          `;
+          
+          // Add event listener for the new generate invoice button
+          document.getElementById('generateInvoiceBtn').onclick = () => {
+              const reservationId = document.getElementById('generateInvoiceBtn').getAttribute('data-reservation-id');
+              if (reservationId) {
+                  window.open(`generate_invoice.php?reservation_id=${reservationId}`, '_blank');
+              } else {
+                  alert('Reservation ID not found.');
+              }
+              // Close modal after clicking (optional, depends on desired flow)
+              modal.classList.add('hidden');
+          };
+          
+          // Re-add event listener for the close button
+          document.getElementById('confirmationClose').onclick = () => {
+              modal.classList.add('hidden');
+          };
+      }
     }
 
     // Static list of countries in French

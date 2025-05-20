@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 20, 2025 at 03:03 AM
+-- Generation Time: May 20, 2025 at 06:52 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pfe` 
+-- Database: `pfe`
 --
 
 DELIMITER $$
@@ -257,7 +257,7 @@ CREATE TABLE IF NOT EXISTS `client` (
 --
 
 INSERT INTO `client` (`id`, `adress`, `pays`, `num_passeport`, `date_naissance`) VALUES
-(2, '123 Cheraga', 'Algérie', 'DZ123456', '2004-07-17');
+(2, '123 cheraga', 'Algerie', 'DZ123456', '2000-01-01');
 
 -- --------------------------------------------------------
 
@@ -379,7 +379,15 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `date_envoi` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_notif_user` (`utilisateur_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notification`
+--
+
+INSERT INTO `notification` (`id`, `utilisateur_id`, `message`, `date_envoi`) VALUES
+(42, 2, 'Votre réservation pour le vol DZ4894 a été envoyée et est en attente de traitement.', '2025-05-20 19:48:37'),
+(43, 2, 'Votre réservation pour le vol DZ7130 a été envoyée et est en attente de traitement.', '2025-05-20 19:52:04');
 
 -- --------------------------------------------------------
 
@@ -528,7 +536,15 @@ CREATE TABLE IF NOT EXISTS `reservation` (
   KEY `fk_res_statut` (`statut`),
   KEY `fk_reservation_vol` (`numero_vol`),
   KEY `fk_reservation_nom_hotel` (`nom_hotel`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`id`, `numero_vol`, `nom_hotel`, `nombre_chambres`, `type_chambre`, `client_id`, `date_reservation`, `statut`, `montant_total`, `est_paye`, `date_debut_hotel`, `date_fin_hotel`, `nombre_billets`) VALUES
+(58, 'DZ4894', 'The Plaza', 2, 'double', 2, '2025-05-20 19:48:37', 'En Attente', 418078.00, 0, '2025-07-10', '2025-07-20', 1),
+(59, 'DZ7130', NULL, 0, NULL, 2, '2025-05-20 19:52:04', 'En Attente', 52645.00, 0, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -624,7 +640,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_email` (`email`),
   KEY `fk_utilisateur_role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `utilisateur`
@@ -814,7 +830,7 @@ INSERT INTO `vol` (`id`, `numero_vol`, `compagnie_aerienne`, `aeroport_depart`, 
 (287, 'DZ5528', 'Etihad Airways', 'Aéroport d’Oran - Ahmed Ben Bella', 'Londres LHR (R.-U.)', 'R.-U.', 'Europe', '2025-07-16 03:12:00', '2025-08-03 11:27:00', 'Aller simple', 69501.00, 200),
 (288, 'DZ6876', 'American Airlines', 'Aéroport de Tamanrasset - Aguenar', 'Brussels BRU (Belgique)', 'Belgique', 'Europe', '2025-08-25 17:52:00', '2025-06-20 04:27:00', 'Aller simple', 61823.00, 203),
 (289, 'DZ9964', 'EgyptAir', 'Aéroport d’Alger - Houari Boumediene', 'Prague PRG (République tchèque)', 'République tchèque', 'Europe', '2025-07-02 04:57:00', '2025-06-25 04:13:00', 'Aller simple', 62169.00, 119),
-(290, 'DZ1789', 'Turkish Airlines', 'Aérroport de Tamanrasset - Aguenar', 'São Paulo GRU (Brésil)', 'Brésil', 'Amérique du Sud', '2025-08-04 10:06:00', '2025-06-28 19:26:00', 'Aller simple', 26787.00, 80),
+(290, 'DZ1789', 'Turkish Airlines', 'Aéroport de Tamanrasset - Aguenar', 'São Paulo GRU (Brésil)', 'Brésil', 'Amérique du Sud', '2025-08-04 10:06:00', '2025-06-28 19:26:00', 'Aller simple', 26787.00, 80),
 (291, 'DZ5680', 'American Airlines', 'Aéroport de Béjaïa - Soummam', 'Tokyo NRT (Japon)', 'Japon', 'Asie', '2025-06-21 13:09:00', '2025-06-14 22:31:00', 'Aller simple', 44296.00, 196),
 (292, 'DZ5525', 'Turkish Airlines', 'Aéroport de Tamanrasset - Aguenar', 'Brussels BRU (Belgique)', 'Belgique', 'Europe', '2025-06-22 01:32:00', '2025-07-27 04:14:00', 'Aller-retour', 38830.00, 195),
 (293, 'DZ7041', 'Tassili Airlines', 'Aéroport d’Annaba - Rabah Bitat', 'Shanghai PVG (Chine)', 'Chine', 'Asie', '2025-07-31 06:18:00', '2025-08-15 00:40:00', 'Aller-retour', 51659.00, 132),
@@ -1016,7 +1032,7 @@ ALTER TABLE `admin`
 -- Constraints for table `client`
 --
 ALTER TABLE `client`
-  ADD CONSTRAINT `fk_client_user` FOREIGN KEY (`id`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_client_user` FOREIGN KEY (`id`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `facture`
