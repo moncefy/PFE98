@@ -86,7 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $hash = $password;
+
 
         $stmt = $conn->prepare("INSERT INTO utilisateur (nom, prenom, email, password, telephone, date_creation,role_id,role_name) VALUES (?, ?, ?, ?, ?, NOW(),1,'Client')");
         $stmt->bind_param('sssss', $nom, $prenom, $email, $hash, $telephone);

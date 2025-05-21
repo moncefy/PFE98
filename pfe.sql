@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 20, 2025 at 06:52 PM
+-- Generation Time: May 21, 2025 at 03:18 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -640,7 +640,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_email` (`email`),
   KEY `fk_utilisateur_role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `utilisateur`

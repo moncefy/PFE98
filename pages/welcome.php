@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agence de Voyage</title>
+    <?php
+    session_start();
+    ?>
     <script src="welcome.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -197,7 +200,13 @@ $imageMap = [
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Services</a>
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">News</a>
                 <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Contact</a>
-                <a href="Login.php" class="text-slate font-semibold hover:text-teal transition-colors">Join us</a>
+                <?php if(isset($_SESSION['user_id'])): ?>
+                    <a href="logout.php" class="text-slate font-semibold hover:text-teal transition-colors flex items-center">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </a>
+                <?php else: ?>
+                    <a href="Login.php" class="text-slate font-semibold hover:text-teal transition-colors">Join us</a>
+                <?php endif; ?>
             </div>
         </div>
     </nav>
