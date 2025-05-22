@@ -195,17 +195,26 @@ $imageMap = [
             
             <!-- Desktop Navigation -->
             <div class="hidden md:flex space-x-6">
-                <a href="#" class="text-teal font-semibold hover:text-teal-dark transition-colors">Home</a>
-                <a href="Discover.php" class="text-slate font-semibold hover:text-teal transition-colors">Discover</a>
-                <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Services</a>
-                <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">News</a>
-                <a href="#" class="text-slate font-semibold hover:text-teal transition-colors">Contact</a>
+                <a href="#" class="text-teal font-semibold">Home</a>
+                <!--<a href="Discover.php" class="text-slate font-semibold hover:text-teal transition-colors">Discover</a>-->
+                <a href="#" class="text-white font-semibold hover:text-teal transition-colors">Services</a>
+                <a href="News.php" class="text-white font-semibold hover:text-teal transition-colors">News</a>
+                <a href="#footer" class="text-white font-semibold hover:text-teal transition-colors">Contact</a>
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <a href="logout.php" class="text-slate font-semibold hover:text-teal transition-colors flex items-center">
-                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                    </a>
+                    <div class="relative">
+                        <button id="profileDropdownBtn" class="flex items-center text-white font-semibold hover:text-teal transition-colors focus:outline-none">
+                            <i class="fas fa-circle-user text-xl mr-2 text-white"></i>
+                            <?= htmlspecialchars($_SESSION['prenom']) ?>
+                            <i class="fas fa-chevron-down ml-2 text-xs text-white"></i>
+                        </button>
+                        <div id="profileDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
+                            <a href="#" id="openProfileModalBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                            <a href="Historique.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Historique</a>
+                            <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
                 <?php else: ?>
-                    <a href="Login.php" class="text-slate font-semibold hover:text-teal transition-colors">Join us</a>
+                    <a href="Login.php" class="text-white font-semibold hover:text-teal transition-colors">Join us</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -352,6 +361,23 @@ function validateForm() {
         return false;
     }
     return true;
+}
+
+// Profile Dropdown
+const profileDropdownBtn = document.getElementById('profileDropdownBtn');
+const profileDropdown = document.getElementById('profileDropdown');
+
+if (profileDropdownBtn && profileDropdown) {
+    profileDropdownBtn.addEventListener('click', () => {
+        profileDropdown.classList.toggle('hidden');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!profileDropdownBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+            profileDropdown.classList.add('hidden');
+        }
+    });
 }
 </script>
 
@@ -601,7 +627,7 @@ function validateForm() {
     </section>
     
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
+    <footer id="footer" class="bg-gray-900 text-white py-12">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
@@ -652,24 +678,13 @@ function validateForm() {
                 </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-            
-            
             <div class="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
                 <p>&copy; 2025 PFE Travels. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <?php include '../includes/profile_modal.php'; ?>
+
 </body>
 </html>

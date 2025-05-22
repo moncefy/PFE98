@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Temporarily enable error reporting for debugging
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: Login.php');
     exit();
@@ -117,6 +122,7 @@ $imageMap = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Résultats des vols</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body class="bg-gray-100 min-h-screen">
   <!-- Navigation Bar -->
@@ -128,15 +134,15 @@ $imageMap = [
           
           <!-- Desktop Navigation -->
           <div class="hidden md:flex space-x-6 items-center">
-        <a href="welcome.php" class="text-gray-600 hover:text-gray-800">Accueil</a>
-              <a href="Discover.php" class="text-gray-600 hover:text-gray-800">Discover</a>
-              <a href="#" class="text-gray-600 hover:text-gray-800">Services</a>
-              <a href="#" class="text-gray-600 hover:text-gray-800">News</a>
-              <a href="#" class="text-gray-600 hover:text-gray-800">Contact</a>
+        <a href="welcome.php" class="text-teal font-semibold">Home</a>
+              <!--<a href="Discover.php" class="text-gray-600 hover:text-gray-800">Discover</a>-->
+              <a href="#" class="text-white font-semibold hover:text-teal transition-colors">Services</a>
+              <a href="News.php" class="text-white font-semibold hover:text-teal transition-colors">News</a>
+              <a href="welcome.php#footer" class="text-white font-semibold hover:text-teal transition-colors">Contact</a>
               
               <!-- Notification Bell -->
               <div class="relative">
-                  <button id="notificationBell" class="text-gray-600 hover:text-gray-800 focus:outline-none">
+                  <button id="notificationBell" class="text-white hover:text-teal focus:outline-none">
                       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                       </svg>
@@ -154,6 +160,24 @@ $imageMap = [
                       </div>
                   </div>
               </div>
+
+              <!-- Profile Dropdown -->
+              <?php if(isset($_SESSION['user_id'])): ?>
+                  <div class="relative">
+                      <button id="profileDropdownBtn" class="flex items-center text-gray-600 hover:text-gray-800 transition-colors focus:outline-none">
+                          <i class="fas fa-circle-user text-xl mr-2"></i>
+                          <?= htmlspecialchars($_SESSION['prenom']) ?>
+                          <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                      </button>
+                      <div id="profileDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
+                          <a href="#" id="openProfileModalBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                          <a href="Historique.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Historique</a>
+                          <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                      </div>
+                  </div>
+              <?php else: ?>
+                  <a href="Login.php" class="text-white font-semibold hover:text-teal transition-colors">Join us</a>
+              <?php endif; ?>
           </div>
       </div>
     </div>
@@ -312,11 +336,29 @@ $imageMap = [
   </div>
 
   <script>
+    console.log('Destinations.php script started.');
     const hotels = <?= json_encode($hotels) ?>;
     let basePrice = 0;
     let hotelPrice = 0;
     let transportCost = 0;
     let nombreBillets = 1;
+
+    // Profile Dropdown Handling (Copied from welcome.php and historique.php)
+    const profileDropdownBtn = document.getElementById('profileDropdownBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    if (profileDropdownBtn && profileDropdown) {
+        profileDropdownBtn.addEventListener('click', () => {
+            profileDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!profileDropdownBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+    }
 
     function updateTotal() {
       const billetsInput = document.getElementById('nombreBillets');
@@ -986,5 +1028,15 @@ $imageMap = [
     // Check for new notifications every minute
     setInterval(loadNotifications, 60000);
   </script>
+
+  <?php include '../includes/profile_modal.php'; ?>
+
+  <!-- Simple Footer Added -->
+  <footer id="footer" class="bg-gray-200 text-gray-700 text-center p-4 mt-8">
+      <div class="container mx-auto">
+          <p>&copy; 2025 PFE Travels. All rights reserved.</p>
+      </div>
+  </footer>
+
 </body>
 </html>
