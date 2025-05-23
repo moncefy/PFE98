@@ -610,10 +610,12 @@ $conn->close();
                                     <p class="font-medium">Vol ${escapeHTML(flight.numero_vol)}</p>
                                     <p class="text-sm text-gray-600">${escapeHTML(flight.aeroport_depart)} → ${escapeHTML(flight.aeroport_arrivee)}</p>
                                     <p class="text-sm text-gray-500">${formattedDate}</p>
+                                    <p class="text-sm text-gray-500">${escapeHTML(flight.compagnie_aerienne) ?? ''}</p>
                                 </div>
                                 <div>
                                     <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 mr-2">
-                                        ${escapeHTML(flight.compagnie)}
+                                    Prix : DZD ${parseFloat(flight.prix).toLocaleString('fr-FR')}
+                                        
                                     </span>
                                     <button onclick="showEditFlightModal(${flight.id})" class="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600 transition mr-2">
                                         Modifier
