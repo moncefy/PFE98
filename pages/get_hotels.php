@@ -1,9 +1,9 @@
 <?php
+session_start();
+
 // Enable error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-session_start();
 
 // Check if user is logged in and is an admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role_id'] !== 3) {
@@ -23,11 +23,8 @@ try {
         throw new Exception("Database connection failed");
     }
 
-    // Get all flights
-    $stmt = $conn->prepare("
-        SELECT * FROM vol 
-        ORDER BY date_depart DESC
-    ");
+    // Get all hotels
+    $stmt = $conn->prepare("SELECT id, nom, prix_par_nuit, chambres_disponible, ville, pays, etoiles FROM hotel");
 
     if (!$stmt) {
         throw new Exception("Failed to prepare statement: " . $conn->error);
@@ -42,24 +39,24 @@ try {
         throw new Exception("Failed to get result: " . $stmt->error);
     }
 
-    $flights = $result->fetch_all(MYSQLI_ASSOC);
+    $hotels = $result->fetch_all(MYSQLI_ASSOC);
 
-    // Return success response with flights data
+    // Return success response with hotels data
     header('Content-Type: application/json');
     echo json_encode([
         'success' => true,
-        'data' => $flights
+        'data' => $hotels
     ]);
 
 } catch (Exception $e) {
     // Log the error
-    error_log("Error in get_flights.php: " . $e->getMessage());
+    error_log("Error in get_hotels.php: " . $e->getMessage());
     
     // Return error response
     header('Content-Type: application/json');
     echo json_encode([
         'success' => false,
-        'message' => 'Error fetching flights: ' . $e->getMessage()
+        'message' => 'Error fetching hotels: ' . $e->getMessage()
     ]);
 } finally {
     if (isset($conn)) {

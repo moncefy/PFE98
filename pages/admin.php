@@ -217,6 +217,24 @@ $conn->close();
             <button onclick="hideUserList()" class="mt-4 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Fermer la liste</button>
         </div>
 
+        <!-- Flight List Section -->
+        <div id="flightListSection" class="bg-white rounded-lg shadow-md p-6 mb-8 hidden">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Liste Complète des Vols</h2>
+            <div id="flightListContent" class="space-y-4">
+                <!-- Flight list will be loaded here by JavaScript -->
+            </div>
+            <button onclick="hideFlightList()" class="mt-4 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Fermer la liste</button>
+        </div>
+
+        <!-- Hotel List Section -->
+        <div id="hotelListSection" class="bg-white rounded-lg shadow-md p-6 mb-8 hidden">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Liste Complète des Hôtels</h2>
+            <div id="hotelListContent" class="space-y-4">
+                <!-- Hotel list will be loaded here by JavaScript -->
+            </div>
+            <button onclick="hideHotelList()" class="mt-4 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Fermer la liste</button>
+        </div>
+
         <!-- Recent Activity -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Recent Users -->
@@ -534,7 +552,9 @@ $conn->close();
 
         // Basic HTML escaping for security
         function escapeHTML(str) {
-            return str.replace(/&/g, '&amp;')
+            // Ensure input is a string before calling replace
+            const s = String(str ?? '');
+            return s.replace(/&/g, '&amp;')
                       .replace(/</g, '&lt;')
                       .replace(/>/g, '&gt;')
                       .replace(/"/g, '&quot;')
@@ -542,13 +562,149 @@ $conn->close();
         }
 
         function showFlightList() {
-            // TODO: Implement flight list view
-            alert('Fonctionnalité à venir');
+            const flightListSection = document.getElementById('flightListSection');
+            if (flightListSection.classList.contains('hidden')) {
+                flightListSection.classList.remove('hidden');
+                fetchFlightList();
+            } else {
+                flightListSection.classList.add('hidden');
+            }
+        }
+
+        function hideFlightList() {
+            document.getElementById('flightListSection').classList.add('hidden');
+        }
+
+        async function fetchFlightList() {
+            const flightListContent = document.getElementById('flightListContent');
+            flightListContent.innerHTML = '<p>Chargement de la liste des vols...</p>';
+
+            try {
+                console.log('Fetching flights...');
+                const response = await fetch('get_flights.php');
+                console.log('Response status:', response.status);
+                
+                const result = await response.json();
+                console.log('Response data:', result);
+
+                if (result.success) {
+                    flightListContent.innerHTML = ''; // Clear loading message
+                    if (result.data && result.data.length > 0) {
+                        console.log('Number of flights:', result.data.length);
+                        result.data.forEach(flight => {
+                            const flightDiv = document.createElement('div');
+                            flightDiv.className = 'flex items-center justify-between p-3 bg-gray-50 rounded';
+                            
+                            // Format the date
+                            const departureDate = new Date(flight.date_depart);
+                            const formattedDate = departureDate.toLocaleDateString('fr-FR', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+
+                            flightDiv.innerHTML = `
+                                <div>
+                                    <p class="font-medium">Vol ${escapeHTML(flight.numero_vol)}</p>
+                                    <p class="text-sm text-gray-600">${escapeHTML(flight.aeroport_depart)} → ${escapeHTML(flight.aeroport_arrivee)}</p>
+                                    <p class="text-sm text-gray-500">${formattedDate}</p>
+                                </div>
+                                <div>
+                                    <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 mr-2">
+                                        ${escapeHTML(flight.compagnie)}
+                                    </span>
+                                    <button onclick="showEditFlightModal(${flight.id})" class="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600 transition mr-2">
+                                        Modifier
+                                    </button>
+                                    <button onclick="deleteFlight(${flight.id})" class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            `;
+                            flightListContent.appendChild(flightDiv);
+                        });
+                    } else {
+                        flightListContent.innerHTML = '<p class="text-gray-500 text-center py-4">Aucun vol trouvé.</p>';
+                    }
+                } else {
+                    console.error('Error from server:', result.message);
+                    flightListContent.innerHTML = `<p class="text-red-500 text-center py-4">Erreur: ${result.message}</p>`;
+                }
+
+            } catch (error) {
+                console.error('Error fetching flights:', error);
+                flightListContent.innerHTML = '<p class="text-red-500 text-center py-4">Erreur lors du chargement de la liste des vols.</p>';
+            }
         }
 
         function showHotelList() {
-            // TODO: Implement hotel list view
-            alert('Fonctionnalité à venir');
+            const hotelListSection = document.getElementById('hotelListSection');
+            if (hotelListSection.classList.contains('hidden')) {
+                hotelListSection.classList.remove('hidden');
+                fetchHotelList();
+            } else {
+                hotelListSection.classList.add('hidden');
+            }
+        }
+
+        function hideHotelList() {
+            document.getElementById('hotelListSection').classList.add('hidden');
+        }
+
+        async function fetchHotelList() {
+            const hotelListContent = document.getElementById('hotelListContent');
+            hotelListContent.innerHTML = '<p>Chargement de la liste des hôtels...</p>';
+
+            try {
+                console.log('Fetching hotels...');
+                const response = await fetch('get_hotels.php'); // We will create this file next
+                console.log('Response status:', response.status);
+                
+                const result = await response.json();
+                console.log('Response data:', result);
+
+                if (result.success) {
+                    hotelListContent.innerHTML = ''; // Clear loading message
+                    if (result.data && result.data.length > 0) {
+                        console.log('Number of hotels:', result.data.length);
+                        result.data.forEach(hotel => {
+                            const hotelDiv = document.createElement('div');
+                            hotelDiv.className = 'flex items-center justify-between p-3 bg-gray-50 rounded';
+
+                            hotelDiv.innerHTML = `
+                                <div>
+                                    <p class="font-medium">${escapeHTML(hotel.nom)} (${hotel.etoiles} ⭐)</p>
+                                    <p class="text-sm text-gray-600">${escapeHTML(hotel.ville)}, ${escapeHTML(hotel.pays)}</p>
+                                    <p class="text-sm text-gray-500">Chambres disponibles: ${hotel.chambres_disponible}</p>
+                                </div>
+                                <div>
+                                    <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800 mr-2">
+                                        DZD ${parseFloat(hotel.prix_par_nuit).toLocaleString('fr-FR')}/nuit
+                                    </span>
+                                    <button onclick="showEditHotelModal(${hotel.id})" class="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600 transition mr-2">
+                                        Modifier
+                                    </button>
+                                    <button onclick="deleteHotel(${hotel.id})" class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            `;
+                            hotelListContent.appendChild(hotelDiv);
+                        });
+                    } else {
+                        hotelListContent.innerHTML = '<p class="text-gray-500 text-center py-4">Aucun hôtel trouvé.</p>';
+                    }
+                } else {
+                     console.error('Error from server:', result.message);
+                     hotelListContent.innerHTML = `<p class="text-red-500 text-center py-4">Erreur: ${result.message}</p>`;
+                }
+
+            } catch (error) {
+                console.error('Error fetching hotels:', error);
+                hotelListContent.innerHTML = '<p class="text-red-500 text-center py-4">Erreur lors du chargement de la liste des hôtels.</p>';
+            }
         }
 
         // Form submission
