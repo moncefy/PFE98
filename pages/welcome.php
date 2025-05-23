@@ -195,9 +195,9 @@ $imageMap = [
             
             <!-- Desktop Navigation -->
             <div class="hidden md:flex space-x-6">
-                <a href="#" class="text-teal font-semibold">Home</a>
+                <a href="welcome.php" class="text-teal font-semibold">Home</a>
                 <!--<a href="Discover.php" class="text-slate font-semibold hover:text-teal transition-colors">Discover</a>-->
-                <a href="#" class="text-white font-semibold hover:text-teal transition-colors">Services</a>
+                <a href="Services.php" class="text-white font-semibold hover:text-teal transition-colors">Services</a>
                 <a href="News.php" class="text-white font-semibold hover:text-teal transition-colors">News</a>
                 <a href="#footer" class="text-white font-semibold hover:text-teal transition-colors">Contact</a>
                 <?php if(isset($_SESSION['user_id'])): ?>

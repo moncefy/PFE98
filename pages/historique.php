@@ -75,26 +75,51 @@ $conn->close();
                 <a href="welcome.php">
                     <img src="../images/LOGO.png" alt="Logo" class="h-16 md:h-20 -my-4">
                 </a>
-                <span class="ml-4 text-xl font-semibold text-white">Historique de Réservations</span>
             </div>
-            <div class="flex items-center space-x-4">
-                 <!-- Profile Dropdown (Copy from welcome.php) -->
-                 <?php if(isset($_SESSION['user_id'])): ?>
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="welcome.php" class="text-gray-800 font-semibold hover:text-teal transition-colors">Home</a>
+                <a href="Services.php" class="text-gray-800 font-semibold hover:text-teal transition-colors">Services</a>
+                <a href="News.php" class="text-gray-800 font-semibold hover:text-teal transition-colors">News</a>
+                <a href="welcome.php#footer" class="text-gray-800 font-semibold hover:text-teal transition-colors">Contact</a>
+                
+                <!-- Notification Bell -->
+                <div class="relative">
+                    <button id="notificationBell" class="text-gray-800 hover:text-teal focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <span id="notificationCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                    </button>
+                    
+                    <!-- Notification Dropdown -->
+                    <div id="notificationDropdown" class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg hidden z-50">
+                        <div class="p-4 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">Notifications</h3>
+                        </div>
+                        <div id="notificationList" class="max-h-60 overflow-y-auto">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Dropdown -->
+                <?php if(isset($_SESSION['user_id'])): ?>
                     <div class="relative">
-                       <button id="profileDropdownBtn" class="flex items-center text-white hover:text-teal transition-colors focus:outline-none">
-                           <i class="fas fa-circle-user text-xl mr-2 text-white"></i>
-                           <?= htmlspecialchars($_SESSION['prenom']) ?>
-                           <i class="fas fa-chevron-down ml-2 text-xs text-white"></i>
-                       </button>
-                       <div id="profileDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
-                           <a href="#" id="openProfileModalBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                           <a href="Historique.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Historique</a>
-                           <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
-                       </div>
-                   </div>
-               <?php else: ?>
-                   <a href="Login.php" class="text-white font-semibold hover:text-teal transition-colors">Join us</a>
-               <?php endif; ?>
+                        <button id="profileDropdownBtn" class="flex items-center text-gray-800 hover:text-teal transition-colors focus:outline-none">
+                            <i class="fas fa-circle-user text-xl mr-2"></i>
+                            <?= htmlspecialchars($_SESSION['prenom']) ?>
+                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </button>
+                        <div id="profileDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
+                            <a href="#" id="openProfileModalBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                            <a href="Historique.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Historique</a>
+                            <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <a href="Login.php" class="text-gray-800 font-semibold hover:text-teal transition-colors">Join us</a>
+                <?php endif; ?>
             </div>
         </div>
     </nav>
