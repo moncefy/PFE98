@@ -677,7 +677,7 @@ if (profileDropdownBtn && profileDropdown) {
                     </form>
                 </div>
             </div>
-
+            
             <div class="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
                 <p>&copy; 2025 PFE Travels. All rights reserved.</p>
             </div>

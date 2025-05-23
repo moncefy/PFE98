@@ -29,9 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['role_id']   = $user->role_id;
         $_SESSION['role_name'] = $user->role_name;
 
-        $dest = $user->role_id === 1
-            ? '../pages/welcome.php'
-            : '../pages/gestionnaire.php';
+        $dest = '../pages/welcome.php'; // Default for client
+
+        if ($user->role_id === 2) {
+            $dest = '../pages/gestionnaire.php';
+        } elseif ($user->role_id === 3) {
+            $dest = '../pages/admin.php';
+        }
 
         header('Location: ' . $dest);
         exit;
