@@ -169,7 +169,12 @@ $conn->close();
                         </div>
 
                         <div class="border-t pt-4 mt-4">
-                            <p class="text-lg font-semibold text-gray-800">Montant Total: DZD <?= number_format($reservation['montant_total'], 2, ',', ' ') ?></p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-lg font-semibold text-gray-800">Montant Total: DZD <?= number_format($reservation['montant_total'], 2, ',', ' ') ?></p>
+                                <p class="text-lg font-semibold <?= $reservation['est_paye'] == 1 ? 'text-green-600' : 'text-red-600' ?>">
+                                    <?= $reservation['est_paye'] == 1 ? 'Payé' : 'Non Payé' ?>
+                                </p>
+                            </div>
                             <p class="text-sm text-gray-600">Réservé le: <?= date('d/m/Y H:i', strtotime($reservation['date_reservation'])) ?></p>
                         </div>
 
@@ -195,9 +200,17 @@ $conn->close();
                             <?php else: ?>
                                 <!-- Leave a Review Button (Only for confirmed reservations) -->
                                 <?php if ($reservation['statut'] === 'Confirmée'): ?>
-                                    <button class="leave-review-btn px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75" data-reservation-id="<?= $reservation['id'] ?>">
-                                        Laisser un avis
-                                    </button>
+                                    <div class="flex gap-2">
+                                        <button class="leave-review-btn px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75" data-reservation-id="<?= $reservation['id'] ?>">
+                                            Laisser un avis
+                                        </button>
+                                        <?php if ($reservation['est_paye'] == 0): ?>
+                                            <button onclick="window.open('Payment_api.php', '_blank')"
+                                                class="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
+                                                Compléter le paiement
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
                                 <?php else: ?>
                                      <p class="text-gray-500 text-sm">Vous pourrez laisser un avis une fois votre réservation confirmée, votre voyage effectué et les services utilisés. Cela nous permettra de mieux évaluer votre expérience complète.</p>
                                 <?php endif; ?>

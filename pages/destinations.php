@@ -513,6 +513,10 @@ $imageMap = [
           class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-lg">
           Confirmer la réservation
         </button>
+        <button onclick="window.open('Payment_api.php', '_blank')"
+          class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-900 transition-colors font-medium text-lg">
+          Payer En Ligne
+        </button>
       `;
 
       document.getElementById('modalBody').innerHTML = html;

@@ -97,6 +97,10 @@ $conn->close();
                             <i class="fas fa-bell text-xl"></i>
                         </button>
                     </div>
+                    <button onclick="showLogsModal()" class="text-gray-600 hover:text-gray-800">
+                        <i class="fas fa-history text-xl"></i>
+                        <span class="ml-2">Consulter Logs</span>
+                    </button>
                     <div class="flex items-center space-x-2">
                         <span class="text-gray-700"><?= htmlspecialchars($_SESSION['prenom'] . ' ' . $_SESSION['nom']) ?></span>
                         <a href="logout.php" class="text-gray-600 hover:text-gray-800">
@@ -441,6 +445,277 @@ $conn->close();
         </div>
     </div>
 
+    <!-- Edit Hotel Modal -->
+    <div id="editHotelModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">Modifier l'hôtel</h3>
+                <button onclick="closeEditHotelModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editHotelForm" class="space-y-4">
+                <input type="hidden" id="editHotelId">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom de l'hôtel</label>
+                    <input type="text" id="editHotelNom" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Adresse</label>
+                    <input type="text" id="editHotelAdresse" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ville</label>
+                        <input type="text" id="editHotelVille" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Pays</label>
+                        <input type="text" id="editHotelPays" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Étoiles</label>
+                        <select id="editHotelEtoiles" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                            <option value="1">1 ⭐</option>
+                            <option value="2">2 ⭐</option>
+                            <option value="3">3 ⭐</option>
+                            <option value="4">4 ⭐</option>
+                            <option value="5">5 ⭐</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Chambres disponibles</label>
+                        <input type="number" id="editHotelChambres" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Prix par nuit (DZD)</label>
+                    <input type="number" id="editHotelPrix" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div class="flex justify-end gap-4 mt-6">
+                    <button type="button" onclick="closeEditHotelModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Annuler
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Flight Modal -->
+    <div id="editFlightModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">Modifier le vol</h3>
+                <button onclick="closeEditFlightModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editFlightForm" class="space-y-4">
+                <input type="hidden" id="editFlightId">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Numéro de vol</label>
+                    <input type="text" id="editFlightNumero" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Aéroport de départ</label>
+                        <input type="text" id="editFlightDepart" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Aéroport d'arrivée</label>
+                        <input type="text" id="editFlightArrivee" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Date de départ</label>
+                    <input type="datetime-local" id="editFlightDate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Compagnie aérienne</label>
+                    <input type="text" id="editFlightCompagnie" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Prix (DZD)</label>
+                    <input type="number" id="editFlightPrix" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div class="flex justify-end gap-4 mt-6">
+                    <button type="button" onclick="closeEditFlightModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Annuler
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Logs Modal -->
+    <div id="logsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">Journal d'activité</h3>
+                <button onclick="closeLogsModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto flex-grow">
+                <div class="space-y-4" id="logsContent">
+                    <!-- Logs will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Hotel Modal -->
+    <div id="addHotelModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">Ajouter un Nouvel Hôtel</h3>
+                <button onclick="closeAddHotelModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addHotelForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom de l'hôtel</label>
+                    <input type="text" id="hotelNom" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Adresse</label>
+                    <input type="text" id="hotelAdresse" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ville</label>
+                        <input type="text" id="hotelVille" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Pays</label>
+                        <input type="text" id="hotelPays" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Étoiles</label>
+                        <select id="hotelEtoiles" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                            <option value="1">1 ⭐</option>
+                            <option value="2">2 ⭐</option>
+                            <option value="3">3 ⭐</option>
+                            <option value="4">4 ⭐</option>
+                            <option value="5">5 ⭐</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Chambres disponibles</label>
+                        <input type="number" id="hotelChambres" required min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Prix par nuit (DZD)</label>
+                    <input type="number" id="hotelPrix" required min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+
+                <div class="flex justify-end gap-4 mt-6">
+                    <button type="button" onclick="closeAddHotelModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Annuler
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                        Ajouter l'Hôtel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Flight Modal -->
+    <div id="addFlightModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">Ajouter un Nouveau Vol</h3>
+                <button onclick="closeAddFlightModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addFlightForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Numéro de vol</label>
+                        <input type="text" id="flightNumero" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Compagnie aérienne</label>
+                        <input type="text" id="flightCompagnie" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Aéroport de départ</label>
+                        <input type="text" id="flightDepart" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Aéroport d'arrivée</label>
+                        <input type="text" id="flightArrivee" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Destination</label>
+                    <input type="text" id="flightDestination" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Date de départ</label>
+                        <input type="datetime-local" id="flightDateDepart" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Date d'arrivée</label>
+                        <input type="datetime-local" id="flightDateArrivee" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Type de vol</label>
+                        <select id="flightType" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <option value="direct">Direct</option>
+                            <option value="escale">Avec escale</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Places disponibles</label>
+                        <input type="number" id="flightPlaces" required min="1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Prix (DZD)</label>
+                    <input type="number" id="flightPrix" required min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+
+                <div class="flex justify-end gap-4 mt-6">
+                    <button type="button" onclick="closeAddFlightModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Annuler
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                        Ajouter
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Global variables
         let currentEditingUserId = null;
@@ -481,14 +756,105 @@ $conn->close();
         document.querySelector('#addUserForm select[name="role_id"]').addEventListener('change', handleRoleChange);
 
         function showAddFlightModal() {
-            // TODO: Implement flight modal
-            alert('Fonctionnalité à venir');
+            const modal = document.getElementById('addFlightModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
-        function showAddHotelModal() {
-            // TODO: Implement hotel modal
-            alert('Fonctionnalité à venir');
+        function closeAddFlightModal() {
+            const modal = document.getElementById('addFlightModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            // Reset form
+            document.getElementById('addFlightForm').reset();
         }
+
+        // Handle form submission
+        document.getElementById('addFlightForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                numero_vol: document.getElementById('flightNumero').value,
+                compagnie_aerienne: document.getElementById('flightCompagnie').value,
+                aeroport_depart: document.getElementById('flightDepart').value,
+                aeroport_arrivee: document.getElementById('flightArrivee').value,
+                destination: document.getElementById('flightDestination').value,
+                date_depart: document.getElementById('flightDateDepart').value,
+                date_arrivee: document.getElementById('flightDateArrivee').value,
+                type_vol: document.getElementById('flightType').value,
+                prix: document.getElementById('flightPrix').value,
+                places_disponibles: document.getElementById('flightPlaces').value
+            };
+
+            // Show success notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out z-50';
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <span>Vol ajouté avec succès!</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+
+            // Close modal and reset form
+            closeAddFlightModal();
+        });
+
+        function showAddHotelModal() {
+            const modal = document.getElementById('addHotelModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeAddHotelModal() {
+            const modal = document.getElementById('addHotelModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            // Reset form
+            document.getElementById('addHotelForm').reset();
+        }
+
+        // Handle hotel form submission
+        document.getElementById('addHotelForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                nom: document.getElementById('hotelNom').value,
+                adresse: document.getElementById('hotelAdresse').value,
+                ville: document.getElementById('hotelVille').value,
+                pays: document.getElementById('hotelPays').value,
+                etoiles: document.getElementById('hotelEtoiles').value,
+                chambres_disponible: document.getElementById('hotelChambres').value,
+                prix_par_nuit: document.getElementById('hotelPrix').value
+            };
+
+            // Show success notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out z-50';
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <span>Hôtel ajouté avec succès!</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+
+            // Close modal and reset form
+            closeAddHotelModal();
+        });
 
         function showUserList() {
             const userListSection = document.getElementById('userListSection');
@@ -880,6 +1246,267 @@ $conn->close();
                 alert('Une erreur est survenue lors de la mise à jour.');
             }
         });
+
+        // Function to show edit modal
+        function showEditHotelModal(hotelId) {
+            // Fetch hotel details
+            fetch(`get_hotel.php?id=${hotelId}`)
+                .then(response => response.json())
+                .then(hotel => {
+                    // Fill the form with hotel details
+                    document.getElementById('editHotelId').value = hotel.id;
+                    document.getElementById('editHotelNom').value = hotel.nom;
+                    document.getElementById('editHotelAdresse').value = hotel.adress;
+                    document.getElementById('editHotelVille').value = hotel.ville;
+                    document.getElementById('editHotelPays').value = hotel.pays;
+                    document.getElementById('editHotelEtoiles').value = hotel.etoiles;
+                    document.getElementById('editHotelChambres').value = hotel.chambres_disponible;
+                    document.getElementById('editHotelPrix').value = hotel.prix_par_nuit;
+
+                    // Show the modal
+                    document.getElementById('editHotelModal').classList.remove('hidden');
+                    document.getElementById('editHotelModal').classList.add('flex');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erreur lors du chargement des détails de l\'hôtel');
+                });
+        }
+
+        // Function to close edit modal
+        function closeEditHotelModal() {
+            document.getElementById('editHotelModal').classList.add('hidden');
+            document.getElementById('editHotelModal').classList.remove('flex');
+        }
+
+        // Handle form submission
+        document.getElementById('editHotelForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                id: document.getElementById('editHotelId').value,
+                nom: document.getElementById('editHotelNom').value,
+                adress: document.getElementById('editHotelAdresse').value,
+                ville: document.getElementById('editHotelVille').value,
+                pays: document.getElementById('editHotelPays').value,
+                etoiles: document.getElementById('editHotelEtoiles').value,
+                chambres_disponible: document.getElementById('editHotelChambres').value,
+                prix_par_nuit: document.getElementById('editHotelPrix').value
+            };
+
+            // Send update request
+            fetch('update_hotel.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success notification
+                    const notification = document.createElement('div');
+                    notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out z-50';
+                    notification.innerHTML = `
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            <span>Hôtel modifié avec succès!</span>
+                        </div>
+                    `;
+                    document.body.appendChild(notification);
+                    
+                    // Remove notification after 3 seconds
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
+
+                    // Close modal and refresh hotel list
+                    closeEditHotelModal();
+                    loadHotels(); // Refresh the hotel list
+                } else {
+                    alert('Erreur lors de la modification de l\'hôtel');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erreur lors de la modification de l\'hôtel');
+            });
+        });
+
+        // Function to show edit flight modal
+        function showEditFlightModal(flightId) {
+            // Fetch flight details
+            fetch(`get_flight.php?id=${flightId}`)
+                .then(response => response.json())
+                .then(flight => {
+                    // Fill the form with flight details
+                    document.getElementById('editFlightId').value = flight.id;
+                    document.getElementById('editFlightNumero').value = flight.numero_vol;
+                    document.getElementById('editFlightDepart').value = flight.aeroport_depart;
+                    document.getElementById('editFlightArrivee').value = flight.aeroport_arrivee;
+                    
+                    // Format date for datetime-local input
+                    const departureDate = new Date(flight.date_depart);
+                    const formattedDate = departureDate.toISOString().slice(0, 16);
+                    document.getElementById('editFlightDate').value = formattedDate;
+                    
+                    document.getElementById('editFlightCompagnie').value = flight.compagnie_aerienne;
+                    document.getElementById('editFlightPrix').value = flight.prix;
+
+                    // Show the modal
+                    document.getElementById('editFlightModal').classList.remove('hidden');
+                    document.getElementById('editFlightModal').classList.add('flex');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erreur lors du chargement des détails du vol');
+                });
+        }
+
+        // Function to close edit flight modal
+        function closeEditFlightModal() {
+            document.getElementById('editFlightModal').classList.add('hidden');
+            document.getElementById('editFlightModal').classList.remove('flex');
+        }
+
+        // Handle flight form submission
+        document.getElementById('editFlightForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                id: document.getElementById('editFlightId').value,
+                numero_vol: document.getElementById('editFlightNumero').value,
+                aeroport_depart: document.getElementById('editFlightDepart').value,
+                aeroport_arrivee: document.getElementById('editFlightArrivee').value,
+                date_depart: document.getElementById('editFlightDate').value,
+                compagnie_aerienne: document.getElementById('editFlightCompagnie').value,
+                prix: document.getElementById('editFlightPrix').value
+            };
+
+            // Send update request
+            fetch('update_flight.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success notification
+                    const notification = document.createElement('div');
+                    notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out z-50';
+                    notification.innerHTML = `
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            <span>Vol modifié avec succès!</span>
+                        </div>
+                    `;
+                    document.body.appendChild(notification);
+                    
+                    // Remove notification after 3 seconds
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
+
+                    // Close modal and refresh flight list
+                    closeEditFlightModal();
+                    fetchFlightList(); // Refresh the flight list
+                } else {
+                    alert('Erreur lors de la modification du vol');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erreur lors de la modification du vol');
+            });
+        });
+
+        // Sample logs data
+        const sampleLogs = [
+            {
+                type: 'payment',
+                message: 'Client #23 a effectué un paiement',
+                timestamp: '2025-05-24 14:30:00',
+                icon: 'fa-money-bill-wave',
+                color: 'bg-green-100 text-green-800'
+            },
+            {
+                type: 'reservation',
+                message: 'Client #54 a confirmé la réservation #68',
+                timestamp: '2025-05-23 15:45:00',
+                icon: 'fa-calendar-check',
+                color: 'bg-blue-100 text-blue-800'
+            },
+            {
+                type: 'rejection',
+                message: 'Le gestionnaire #40 a rejeté la réservation #29 du client #68',
+                timestamp: '2025-05-22 11:20:00',
+                icon: 'fa-times-circle',
+                color: 'bg-red-100 text-red-800'
+            },
+            {
+                type: 'payment',
+                message: 'Client #45 a effectué un paiement',
+                timestamp: '2025-05-21 16:15:00',
+                icon: 'fa-money-bill-wave',
+                color: 'bg-green-100 text-green-800'
+            },
+            {
+                type: 'reservation',
+                message: 'Client #12 a confirmé la réservation #45',
+                timestamp: '2025-05-20 09:30:00',
+                icon: 'fa-calendar-check',
+                color: 'bg-blue-100 text-blue-800'
+            },
+            {
+                type: 'rejection',
+                message: 'Le gestionnaire #33 a rejeté la réservation #12 du client #89',
+                timestamp: '2025-05-20 08:45:00',
+                icon: 'fa-times-circle',
+                color: 'bg-red-100 text-red-800'
+            }
+        ];
+
+        function showLogsModal() {
+            const modal = document.getElementById('logsModal');
+            const logsContent = document.getElementById('logsContent');
+            
+            // Clear previous logs
+            logsContent.innerHTML = '';
+            
+            // Add logs with animation
+            sampleLogs.forEach((log, index) => {
+                const logElement = document.createElement('div');
+                logElement.className = `p-4 rounded-lg ${log.color} transform transition-all duration-500 opacity-0 translate-y-4`;
+                logElement.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas ${log.icon} mr-3"></i>
+                        <div class="flex-grow">
+                            <p class="font-medium">${log.message}</p>
+                            <p class="text-sm opacity-75">${log.timestamp}</p>
+                        </div>
+                    </div>
+                `;
+                logsContent.appendChild(logElement);
+                
+                // Trigger animation
+                setTimeout(() => {
+                    logElement.classList.remove('opacity-0', 'translate-y-4');
+                }, index * 100);
+            });
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLogsModal() {
+            const modal = document.getElementById('logsModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
     </script>
 </body>
 </html> 

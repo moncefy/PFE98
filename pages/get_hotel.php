@@ -1,11 +1,11 @@
 <?php
 require_once '../class/Database.php';
 
-// Get flight ID from request
-$flightId = isset($_GET['id']) ? intval($_GET['id']) : 0;
+// Get hotel ID from request
+$hotelId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-if ($flightId <= 0) {
-    echo json_encode(['error' => 'Invalid flight ID']);
+if ($hotelId <= 0) {
+    echo json_encode(['error' => 'Invalid hotel ID']);
     exit;
 }
 
@@ -15,15 +15,15 @@ try {
     $conn = $db->getConnection();
 
     // Prepare and execute query
-    $stmt = $conn->prepare("SELECT * FROM vol WHERE id = ?");
-    $stmt->bind_param("i", $flightId);
+    $stmt = $conn->prepare("SELECT * FROM hotel WHERE id = ?");
+    $stmt->bind_param("i", $hotelId);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($flight = $result->fetch_assoc()) {
-        echo json_encode($flight);
+    if ($hotel = $result->fetch_assoc()) {
+        echo json_encode($hotel);
     } else {
-        echo json_encode(['error' => 'Flight not found']);
+        echo json_encode(['error' => 'Hotel not found']);
     }
 
     $stmt->close();
